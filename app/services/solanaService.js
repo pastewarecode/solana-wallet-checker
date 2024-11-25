@@ -17,7 +17,7 @@ export const getSolBalance = async (walletAddress) => {
     }
     catch(error)
     {
-        console.error("Error fetching balance: ",error);
+        console.error("Error fetching balance: ", error);
         throw error;
     }
 
