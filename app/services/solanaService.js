@@ -5,7 +5,7 @@ const connection = new Connection('https://api.mainnet-beta.solana.com', 'confir
 
 //gets wallet balance in lamports and converts to SOL.
 //we can then convert to usd, cad, etc for further usage
-export const getWalletBalance = async (walletAddress) => { 
+export const getSolBalance = async (walletAddress) => { 
 
     //variable publicKey is an address of new PublicKey object from solana/web3.js
     const publicKey = new PublicKey(walletAddress);
@@ -18,6 +18,7 @@ export const getWalletBalance = async (walletAddress) => {
     catch(error)
     {
         console.error("Error fetching balance: ",error);
+        throw error;
     }
 
     //divides lampots by 1 billion to get value in SOL
