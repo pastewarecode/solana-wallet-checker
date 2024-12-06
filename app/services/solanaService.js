@@ -1,4 +1,5 @@
 import { Connection, PublicKey } from "@solana/web3.js";
+import { getParsedTokenAccountsByOwner } from "@solana/spl-token";
 
 //establishing a connection to the solana blockchain.
 const connection = new Connection('https://api.mainnet-beta.solana.com', 'confirmed');
@@ -24,4 +25,12 @@ export const getSolBalance = async (walletAddress) => {
     //divides lampots by 1 billion to get value in SOL
     const balanceInSol = balanceInLamports/1000000000;
     return balanceInSol;
+}
+
+//Fetch SPL token balances depending on the unique wallet
+export const getSPLTokenBalances = async (walletAddress) => {
+
+    //variable publicKey is an address of new PublicKey object from solana/web3.js
+    const publicKey = new PublicKey(walletAddress);
+    
 }
