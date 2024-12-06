@@ -32,5 +32,33 @@ export const getSPLTokenBalances = async (walletAddress) => {
 
     //variable publicKey is an address of new PublicKey object from solana/web3.js
     const publicKey = new PublicKey(walletAddress);
+
+    try 
+    {   //filters the searches for ONLY accounts managed by solana
+        const tokenAccounts = await connection.getParsedTokenAccountsByOwner(publicKey, {
+          programId: new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA") //address of Solana Token Program
+        });
     
+    //returns 
+    return tokenAccounts.value.map((account) => {
+        //parse the account data so we can get information on tokens
+        const info = account.account.data.parsed.info; 
+
+        return {
+            //returns the mint address AKA unique address for token.
+          tokenAddress: info.mint, 
+
+          //parsing the token amount as a number
+          amount: parseFloat(info.tokenAmount.uiAmountString), 
+
+          //returns how many decimals the token uses 
+          decimals: info.tokenAmount.decimals, 
+        };
+      });
+    }
+    catch(error)
+    {
+        console.error("Error fetching SPL token balances: ", error); 
+        throw error;
+    }
 }
