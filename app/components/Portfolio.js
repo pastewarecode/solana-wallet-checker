@@ -1,51 +1,65 @@
-import React from "react";
-import { useState } from 'react';
-import WalletInput from "./WalletInput";
+import React, { useState, useEffect } from "react";
+import { getSolBalance, getSPLTokenBalances } from "../services/solanaService"; //get wallet balances of all tokens
+import { getMultipleTokenPrice } from "../services/priceService"; //get live prices of tokens
+import TokenList from "./TokensList"; //get list of tokens
 
-//this imports the function that returns 'balanceInSol
-import { getSolBalance } from "../services/solanaService";
+function Portfolio({walletAddress}) {
 
-function Portfolio() {
-    //create usestate variables for solana balance, to handle loading, and errors.
-    const [solBalance, setSolBalance] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [solBalance, setSolBalance] = useState(null); //stores solana balance
+    const [tokens, setTokens] = useState([]); //stores list of tokens with their shares and values in USD
+    const [totalValue, setTotalValue] = useState(0);  //stores the total value of wallet
 
-    //function to handle the wallet address submission
-    const handleAddressSubmit = async (walletAddress) => {
-        setLoading(true); //loading is true as it loads
-        setError(null); //reset the state of the error variable
+    useEffect (() => {
+        //grabs and returns portfolio
+        const fetchPortfolio = async() => {
+            try
+            {
+                const sol = await getSolBalance(walletAddress); //grab solana balance
+                const splTokens = await getSPLTokenBalances(walletAddress); //grab other tokens
+                const tokenIds = ["solana", ...splTokens.map((t) => t.tokenAddress)]; //grab token names
+                const prices = await getMultipleTokenPrices(tokenIds); //grab live prices of tokens
 
-        //try and catch because we are using await
-        try 
-        {
-            const balance = await getSolBalance(walletAddress) //fetch balance with their wallet address as the parameter
-            setSolBalance(balance) //set the state as 'balance'
-        }
-        catch (error)
-        {
-            setError("Failed to retrieve wallet balance. Please try again.") //sets error message if error is caught
-        }
-        finally 
-        {
-            setLoading(false) //no longer loading. We update the state of 'setLoading'
-        }
-    };
+                //returns name, amount, value, of spl tokens
+                const tokensWithValues = splTokens.map((token) => ({
+                    //returns name as the token CA
+                    name: token.tokenAddress, 
+                    //amount of tokens
+                    amount: token.amount, 
+                    //value of 'x' amount of tokens in USD by using the live price of the token multiplied by shares
+                    usdValue: token.amount * (prices[token.tokenAddress] || 0), 
+                }));
 
-    return (
+                //calculate value of their solBalance and set their sol and other tokens in state (solBalance & tokens)
+                const solBalanceValue = sol * prices.solana; //calculation
+                
+                setSolBalance(sol); //set sol balance in state
+                setTokens([{ name: "Solana (SOL)", amount: sol, usdValue: solBalanceValue },  //sets name, amount, value, for solana in wallet
+                    ...tokensWithValues]); //sets name, amount, value for every other token
+
+
+                //calculate and set total value of portfolio in state (totalValue)
+                //portfolioTotal uses reduce() to iterate through token.usdValue and gather the values in the parameter 'sum'
+                const portfolioTotal = solBalanceValue + tokensWithValues.reduce((sum, token) => sum + token.usdValue, 0); 
+                setTotalValue(portfolioTotal); 
+            }
+            catch (error)
+            {
+                console.error("Error fetching portfolio information:", error); 
+            }
+        };
+
+        //useEffect will re-render and call the function 'fetchPortfolio()' everytime the '[walletAddress]' value changes
+        fetchPortfolio();
+
+    }, [walletAddress]); 
+
+
+    return(
         <div>
-            <h1>Solana Portfolio</h1>
-
-            <WalletInput onAddressSubmit={handleAddressSubmit}/> 
-
-            {/* Display loading message */}
-            {loading && <p>Loading...</p>}
-
-            {/* Display error message we made above */}
-            {error && <p className="text-red-500">{error}</p>}
-
-            {/* Display wallet balance in solana */}
-            {<p>Your SOL Balance: {solBalance.toFixed(6)}SOL</p>}
+            <h1>Portfolio:</h1>
+            <p>Account Value: ${portfolioTotal.toFixed(2)}USD</p>
+            {/* Display the TokensList component */}
+            <TokenList tokens={tokens}></TokenList> 
         </div>
     )
 }

@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from 'react';
-import { useEffect } from 'react';
 
 function WalletInput({onAddressSubmit}) {
     const [address, setAddress] = useState('');

@@ -39,7 +39,6 @@ export const getSPLTokenBalances = async (walletAddress) => {
           programId: new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA") //address of Solana Token Program
         });
     
-    //returns 
     return tokenAccounts.value.map((account) => {
         //parse the account data so we can get information on tokens
         const info = account.account.data.parsed.info; 
