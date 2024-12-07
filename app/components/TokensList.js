@@ -1,2 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+
+//function that displays 'TokenList' a list of tokens that includes their amount of shares and USD values of tokens
+function TokenList({tokens}) {
+    return (
+        <div>
+            <h3>Tokens:</h3>
+            
+            {/* List of tokens */}
+            <ul>
+                {/* go through each token and display name, amount, value in usd */}
+                {tokens.map((token, index) => ( 
+                    <li key={index}>
+                        {token.name}: {token.amount} (${token.usdValue.toFixed(2)})
+                    </li>
+                ))}
+            </ul>
+        </div>
+    )
+}
+
+export default TokenList;
 

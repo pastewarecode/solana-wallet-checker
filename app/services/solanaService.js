@@ -27,7 +27,7 @@ export const getSolBalance = async (walletAddress) => {
     return balanceInSol;
 }
 
-//Fetch SPL token balances depending on the unique wallet
+//Fetches SPL token balances depending on the unique wallet
 export const getSPLTokenBalances = async (walletAddress) => {
 
     //variable publicKey is an address of new PublicKey object from solana/web3.js
