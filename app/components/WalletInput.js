@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { useState } from 'react';
 
@@ -17,7 +18,7 @@ function WalletInput({onAddressSubmit}) {
                 type="text"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-                placeholder="Search Solana Wallet Address"
+                placeholder="Enter Wallet Address..."
             />
             {/* button to search */}
             <button type="submit">Search</button>

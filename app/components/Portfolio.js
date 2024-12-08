@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from "react";
 import { getSolBalance, getSPLTokenBalances } from "../services/solanaService"; //get wallet balances of all tokens
 import { getMultipleTokenPrice } from "../services/priceService"; //get live prices of tokens
@@ -57,7 +58,7 @@ function Portfolio({walletAddress}) {
     return(
         <div>
             <h1>Portfolio:</h1>
-            <p>Account Value: ${portfolioTotal.toFixed(2)}USD</p>
+            <p>Account Value: ${totalValue.toFixed(2)}USD</p>
             {/* Display the TokensList component */}
             <TokenList tokens={tokens}></TokenList> 
         </div>

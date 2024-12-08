@@ -1,7 +1,7 @@
 import React from "react";
 
 //function that displays 'TokenList' a list of tokens that includes their amount of shares and USD values of tokens
-function TokenList({tokens}) {
+function TokensList({tokens}) {
     return (
         <div>
             <h3>Tokens:</h3>
@@ -19,5 +19,5 @@ function TokenList({tokens}) {
     )
 }
 
-export default TokenList;
+export default TokensList;
 

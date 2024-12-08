@@ -2,7 +2,7 @@ import { Connection, PublicKey } from "@solana/web3.js";
 import { getParsedTokenAccountsByOwner } from "@solana/spl-token";
 
 //establishing a connection to the solana blockchain.
-const connection = new Connection('https://api.mainnet-beta.solana.com', 'confirmed');
+const connection = new Connection('https://solana-mainnet.g.alchemy.com/v2/QTSuew-uIZzjC9C4zBehpLrKe03lUMsH', 'confirmed');
 
 //gets wallet balance in lamports and converts to SOL.
 //we can then convert to usd, cad, etc for further usage
@@ -15,16 +15,16 @@ export const getSolBalance = async (walletAddress) => {
     {
         //uses 'connection' to get balance of wallet in lamports, identified by publicKey
         const balanceInLamports = await connection.getBalance(publicKey);
+
+        //divides lampots by 1 billion to get value in SOL
+        const balanceInSol = balanceInLamports/1000000000;
+        return balanceInSol;
     }
     catch(error)
     {
         console.error("Error fetching balance: ", error);
         throw error;
     }
-
-    //divides lampots by 1 billion to get value in SOL
-    const balanceInSol = balanceInLamports/1000000000;
-    return balanceInSol;
 }
 
 //Fetches SPL token balances depending on the unique wallet
