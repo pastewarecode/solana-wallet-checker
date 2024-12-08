@@ -18,7 +18,7 @@ function Portfolio({walletAddress}) {
                 const sol = await getSolBalance(walletAddress); //grab solana balance
                 const splTokens = await getSPLTokenBalances(walletAddress); //grab other tokens
                 const tokenIds = ["solana", ...splTokens.map((t) => t.tokenAddress)]; //grab token names
-                const prices = await getMultipleTokenPrices(tokenIds); //grab live prices of tokens
+                const prices = await getMultipleTokenPrice(tokenIds); //grab live prices of tokens
 
                 //returns name, amount, value, of spl tokens
                 const tokensWithValues = splTokens.map((token) => ({
@@ -42,6 +42,7 @@ function Portfolio({walletAddress}) {
                 //portfolioTotal uses reduce() to iterate through token.usdValue and gather the values in the parameter 'sum'
                 const portfolioTotal = solBalanceValue + tokensWithValues.reduce((sum, token) => sum + token.usdValue, 0); 
                 setTotalValue(portfolioTotal); 
+                
             }
             catch (error)
             {
@@ -59,6 +60,7 @@ function Portfolio({walletAddress}) {
         <div>
             <h1>Portfolio:</h1>
             <p>Account Value: ${totalValue.toFixed(2)}USD</p>
+
             {/* Display the TokensList component */}
             <TokenList tokens={tokens}></TokenList> 
         </div>

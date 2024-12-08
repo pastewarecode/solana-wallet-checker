@@ -8,9 +8,7 @@ export const getTokenPrice = async (tokenId) => {
     try 
     {
         //response = get the token price by tokenId
-        const response = await axios.get( 
-          `${COINGECKO_BASE_URL}?ids=${tokenId}&vs_currencies=usd`
-        );
+        const response = await axios.get(`${CoinGecko_Base_URL}?ids=${tokenId}&vs_currencies=usd`);
 
         return response.data[tokenId]?.usd || 0;
     } 
@@ -27,9 +25,7 @@ export const getMultipleTokenPrice = async (tokenIds) => {
     {
         const ids = tokenIds.join(",");
 
-        const response = await axios.get(
-          `${COINGECKO_BASE_URL}?ids=${ids}&vs_currencies=usd`
-        );
+        const response = await axios.get(`${CoinGecko_Base_URL}?ids=${ids}&vs_currencies=usd`);
 
         return tokenIds.reduce((prices, id) => {
           prices[id] = response.data[id]?.usd || 0;
