@@ -13,14 +13,16 @@ export default function TestPage() {
 
   return (
     <div>
-      <h1>Test Page</h1>
-      <p>Enter a Solana wallet address below to view its portfolio.</p>
+      <h1 className="text-3xl p-2">SolSearch</h1>
+      <p className="text-xl">Enter a Solana wallet address below to view its portfolio.</p>
       
-      {/* Wallet Input Component */}
-      <WalletInput onAddressSubmit={handleAddressSubmit} />
-      
-      {/* Display the Portfolio only when a wallet address is entered */}
-      {walletAddress && <Portfolio walletAddress={walletAddress} />}
+      <div className="p-2 ">
+        {/* Wallet Input Component */}
+        <WalletInput onAddressSubmit={handleAddressSubmit} />
+        
+        {/* Display the Portfolio only when a wallet address is entered */}
+        {walletAddress && <Portfolio walletAddress={walletAddress} />}
+      </div>
     </div>
   );
 }

@@ -58,7 +58,7 @@ function Portfolio({walletAddress}) {
 
     return(
         <div>
-            <h1>Portfolio:</h1>
+            <h1 className="text-xl p-2 mt-4">Account Details:</h1>
             <p>Account Value: ${totalValue.toFixed(2)}USD</p>
 
             {/* Display the TokensList component */}

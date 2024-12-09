@@ -18,7 +18,7 @@ function WalletInput({onAddressSubmit}) {
                 type="text"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-                placeholder="Enter Wallet Address..."
+                placeholder="Enter wallet address..."
             />
             {/* button to search */}
             <button type="submit">Search</button>

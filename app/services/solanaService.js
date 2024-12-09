@@ -1,5 +1,6 @@
 import { Connection, PublicKey } from "@solana/web3.js";
 import { getParsedTokenAccountsByOwner } from "@solana/spl-token";
+import { Metadata } from "@metaplex/js/";
 
 //establishing a connection to the solana blockchain.
 const connection = new Connection('https://solana-mainnet.g.alchemy.com/v2/QTSuew-uIZzjC9C4zBehpLrKe03lUMsH', 'confirmed');
@@ -59,5 +60,24 @@ export const getSPLTokenBalances = async (walletAddress) => {
     {
         console.error("Error fetching SPL token balances: ", error); 
         throw error;
+    }
+}
+
+//get token 'metadata' or 'name' rather than just its contract address
+export const getTokenName = async(tokenAddress) => {
+    
+    try
+    {
+        //create variables to hold necessary data
+        const mintPublicKey = new PublicKey(tokenAddress); //address
+        const metadataPDA = await Metadata.getPDA(mintPublicKey); //program address
+        const metadata = await Metadata.load(connection, metadataPDA); //metadata aka name
+
+        return metadata.data.data.name;
+    }
+    catch
+    {
+        console.error("Error fetching token name:", error);
+        return tokenAddress; //if name isnt fetched, we will just use the CA
     }
 }

@@ -4,7 +4,7 @@ import React from "react";
 function TokensList({tokens}) {
     return (
         <div>
-            <h3>Tokens:</h3>
+            <h3 className="text-xl mt-2">Tokens:</h3>
             
             {/* List of tokens */}
             <ul>
