@@ -1,6 +1,3 @@
-import React, { useState, useEffect } from "react";
-import { getTokenName } from "../services/solanaService"; 
-
 //function that displays 'TokenList' a list of tokens that includes their amount of shares and USD values of tokens
 function TokensList({tokens}) {
     return (

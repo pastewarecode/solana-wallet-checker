@@ -1,5 +1,4 @@
 import { Connection, PublicKey } from "@solana/web3.js";
-import { getParsedTokenAccountsByOwner } from "@solana/spl-token";
 import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 
 //establishing a connection to the solana blockchain.
