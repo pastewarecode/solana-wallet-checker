@@ -1,6 +1,6 @@
 import { Connection, PublicKey } from "@solana/web3.js";
 import { getParsedTokenAccountsByOwner } from "@solana/spl-token";
-import { Metadata } from "@metaplex/js/";
+import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 
 //establishing a connection to the solana blockchain.
 const connection = new Connection('https://solana-mainnet.g.alchemy.com/v2/QTSuew-uIZzjC9C4zBehpLrKe03lUMsH', 'confirmed');

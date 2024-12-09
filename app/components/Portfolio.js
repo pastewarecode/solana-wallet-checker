@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { getSolBalance, getSPLTokenBalances } from "../services/solanaService"; //get wallet balances of all tokens
+import { getSolBalance, getSPLTokenBalances, getTokenName } from "../services/solanaService"; //get wallet balances of all tokens
 import { getMultipleTokenPrice } from "../services/priceService"; //get live prices of tokens
-import TokenList from "./TokensList"; //get list of tokens
+import TokensList from "./TokensList"; //get list of tokens
 
 function Portfolio({walletAddress}) {
 
@@ -17,18 +17,39 @@ function Portfolio({walletAddress}) {
             {
                 const sol = await getSolBalance(walletAddress); //grab solana balance
                 const splTokens = await getSPLTokenBalances(walletAddress); //grab other tokens
-                const tokenIds = ["solana", ...splTokens.map((t) => t.tokenAddress)]; //grab token names
+                const tokenIds = ["solana", ...splTokens.map((t) => t.tokenAddress)]; //grab token addresses
                 const prices = await getMultipleTokenPrice(tokenIds); //grab live prices of tokens
 
-                //returns name, amount, value, of spl tokens
-                const tokensWithValues = splTokens.map((token) => ({
-                    //returns name as the token CA
-                    name: token.tokenAddress, 
-                    //amount of tokens
-                    amount: token.amount, 
-                    //value of 'x' amount of tokens in USD by using the live price of the token multiplied by shares
-                    usdValue: token.amount * (prices[token.tokenAddress] || 0), 
-                }));
+                
+                
+                //returns name, address, amount, value, of spl tokens
+                const tokensWithValues = await Promise.all(
+                    splTokens.map( async(token) => {    //map through tokens
+    
+                        try
+                        {
+                        //name = metadata returned by getTokenName() using the tokenAddress as parameter for identification
+                        const tokenName = await getTokenName(token.tokenAddress)
+                            return {
+                                //object token name: is 'tokenName' and also falls back to token.tokenAddress
+                                name: tokenName,
+                                //amount of tokens
+                                amount: token.amount, 
+                                //value of 'x' amount of tokens in USD by using the live price of the token multiplied by shares
+                                usdValue: token.amount * (prices[token.tokenAddress] || 0), 
+                            }
+                        }
+                        catch(error)
+                        {
+                            console.log("Error getting token name:", error);
+                            return {
+                                name: token.tokenAddress, //fallback to token address if name fetch fails
+                                amount: token.amount,
+                                usdValue: token.amount * (prices[token.tokenAddress] || 0),
+                            };
+                        }
+                    }));
+                        
 
                 //calculate value of their solBalance and set their sol and other tokens in state (solBalance & tokens)
                 const solBalanceValue = sol * prices.solana; //calculation
@@ -62,7 +83,7 @@ function Portfolio({walletAddress}) {
             <p>Account Value: ${totalValue.toFixed(2)}USD</p>
 
             {/* Display the TokensList component */}
-            <TokenList tokens={tokens}></TokenList> 
+            <TokensList tokens={tokens}></TokensList> 
         </div>
     )
 }
