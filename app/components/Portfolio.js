@@ -10,6 +10,7 @@ function Portfolio({walletAddress}) {
     const [tokens, setTokens] = useState([]); //stores list of tokens with their shares and values in USD
     const [totalValue, setTotalValue] = useState(0);  //stores the total value of wallet
 
+
     useEffect (() => {
         //grabs and returns portfolio
         const fetchPortfolio = async() => {
@@ -19,8 +20,6 @@ function Portfolio({walletAddress}) {
                 const splTokens = await getSPLTokenBalances(walletAddress); //grab other tokens
                 const tokenIds = ["solana", ...splTokens.map((t) => t.tokenAddress)]; //grab token addresses
                 const prices = await getMultipleTokenPrice(tokenIds); //grab live prices of tokens
-
-                
                 
                 //returns name, address, amount, value, of spl tokens
                 const tokensWithValues = await Promise.all(
@@ -75,7 +74,7 @@ function Portfolio({walletAddress}) {
         fetchPortfolio();
 
     }, [walletAddress]); 
-
+    
 
     return(
         <div>
