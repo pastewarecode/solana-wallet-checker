@@ -12,25 +12,26 @@ function WalletInput({onAddressSubmit}) {
 
 
     return (
-        <form onSubmit={handleSubmit}>
-            {/* creating input field to enter address */}
-            <input 
-                type="text"
-                className="w-full p-4 border border-gray-300 rounded-md"
-                style={{ height: "8vh", fontSize: "1.25rem" }}
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                placeholder="Enter wallet address..."
-            />
-            {/* button to search */}
-            <button
-                type="submit"
-                className="mt-4 px-6 py-2 rounded-md bg-gray-200 text-black hover:bg-gray-300 border border-black"
-                style={{ fontSize: "1.25rem" }}
-                >
-                Search
-            </button>
-        </form>
+<form onSubmit={handleSubmit} className="flex items-center">
+  {/* creating input field to enter address */}
+  <input 
+    type="text"
+    className="w-3/4 p-4 border border-gray-300 rounded-md"
+    style={{ height: "8vh", fontSize: "1.25rem" }}
+    value={address}
+    onChange={(e) => setAddress(e.target.value)}
+    placeholder="Enter wallet address..."
+  />
+  {/* button to search */}
+  <button
+    type="submit"
+    className="ml-4 px-6 py-2 rounded-md bg-gray-200 text-black hover:bg-gray-300 border border-black"
+    style={{ fontSize: "1.25rem", height: "8vh" }}
+  >
+    Search
+  </button>
+</form>
+
     );
 }
 

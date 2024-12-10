@@ -33,25 +33,33 @@ export default function PortfolioPage() {
 
 
   return (
-    <div>
-      <header className="p-4 bg-blue-600 text-white">
-        <h1 className="text-3xl font-bold" onClick={handleReturnHome}>SolSearch</h1>
-      </header>
+    <div className="min-h-screen flex flex-col items-center justify-between" 
+        style={{background: "linear-gradient(135deg, #4b0082, #8a2be2, #0000ff)"}}>
 
-      <main className="p-6">
-        {/* new search bar for the portfolio page */}
-        <form onSubmit={handleAddressSubmit} className="flex mb-6">
+      <header className="p-4 bg-gray-800 text-white w-full flex items-center justify-between">
+        <h1 className="text-4xl font-bold text-gray-300 font-serif" onClick={handleReturnHome}>
+          SolSearch
+        </h1>
+
+        {/* search bar inside of header */}
+        <form onSubmit={handleAddressSubmit} className="flex ml-auto">
           <input
             type="text"
             value={newWallet}
             onChange={(e) => setWallet(e.target.value)} //sets new value typed in as the walletAddress
-            className="p-2 border border-gray-300 rounded-md mr-2"
+            className="p-2 border border-gray-300 rounded-md mr-2 w-64 text-black placeholder-gray-400"
             placeholder="Search another wallet..."
           />
-
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">Search</button>
+          <button 
+            type="submit" 
+            className="bg-gray-200 px-4 py-2 rounded-md text-black hover:bg-gray-300 border border-black"
+            >
+              Search
+          </button>
         </form>
+      </header>
 
+      <main className="p-6">
         {/* displays portfolio component using the address from the URL as 'walletAddress' */}
         <Portfolio walletAddress={walletAddress} />
 

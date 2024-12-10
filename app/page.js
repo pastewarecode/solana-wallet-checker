@@ -23,7 +23,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-between" 
-    style={{background: "linear-gradient(135deg, #4b0082, #8a2be2, #0000ff)"}}>
+        style={{background: "linear-gradient(135deg, #4b0082, #8a2be2, #0000ff)"}}>
 
       <header className="p-4 bg-gray-800 text-white w-full">
         <h1 className="text-4xl font-bold text-gray-300 font-serif">

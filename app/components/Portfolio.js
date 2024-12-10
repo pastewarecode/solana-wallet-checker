@@ -77,9 +77,14 @@ function Portfolio({walletAddress}) {
     
 
     return(
-        <div>
-            <h1 className="text-xl p-2">Account: {walletAddress}</h1>
-            <p>Total Account Value: ${totalValue.toFixed(2)}USD</p>
+        <div className="bg-gray-300 p-4 rounded-lg shadow-md mb-6 w-full max-w-xl">
+            <h1 className="text-xl p-2 mb-2 font-bold">
+                Account: {walletAddress}
+            </h1>
+
+            <div className="bg-gray-400 p-4 rounded-lg mb-4">
+                <p className="text-xl">Total Account Value: ${totalValue.toFixed(2)}USD</p>
+            </div>
 
             {/* Display the TokensList component */}
             <TokensList tokens={tokens}></TokensList> 
