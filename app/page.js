@@ -22,15 +22,26 @@ export default function HomePage() {
   };
 
   return (
-    <div>
-      <header className="p-4 bg-blue-600 text-white">
-        <h1 className="text-3xl font-bold">SolSearch</h1>
-        <p className="text-xl mt-2">Find out what's in your Solana wallet.</p>
+    <div className="min-h-screen flex flex-col items-center justify-between" 
+    style={{background: "linear-gradient(135deg, #4b0082, #8a2be2, #0000ff)"}}>
+
+      <header className="p-4 bg-gray-800 text-white w-full">
+        <h1 className="text-4xl font-bold text-gray-300 font-serif">
+            SolSearch
+        </h1>
       </header>
-      <main className="p-6">
-        {/* wallet input for the submission box */}
-        <WalletInput onAddressSubmit={handleAddressSubmit} />
-        
+
+      <main className="flex flex-col flex-grow w-full px-4 mt-32 pl-36">
+        <h2 className="text-black font-bold text-6xl mb-4">
+          Search the Solana <br></br>
+          Blockchain in Seconds!
+        </h2>
+
+        <div className="w-3/4" style={{width: "70%"}}>
+            {/* wallet input for the submission box */}
+            <WalletInput onAddressSubmit={handleAddressSubmit}/>
+        </div>
+
         {/* display an error message in red */}
         {error && <p className="text-red-600 mt-4">{error}</p>}
       </main>
